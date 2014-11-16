@@ -1,0 +1,20 @@
+#version 400
+ 
+// corresponds with output from vertex shader
+in vec3 Color;
+ 
+out vec4 FragColor;
+ 
+void main()
+{
+	vec3 N;
+    N.xy = gl_PointCoord* 2.0 - vec2(1.0);    
+    float mag = dot(N.xy, N.xy);
+    if (mag > 1.0) discard;   // kill pixels outside circle
+    N.z = sqrt(1.0-mag);
+
+    // calculate lighting
+    float diffuse = max(0.0, dot(vec3(0,0,1), N));
+
+    FragColor = vec4(Color,1) * diffuse;
+}
