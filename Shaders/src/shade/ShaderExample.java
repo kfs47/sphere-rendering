@@ -81,8 +81,6 @@ public class ShaderExample
 			Matrix4 R = Matrix4.createRotationY((float)0.3);
 			Matrix4 R2 = Matrix4.createRotationX((float)0.3);
 			Matrix4 V = Matrix4.createPerspective((float)1,(float)1,(float)3,(float)0);
-			Matrix4 S = Matrix4.createScale((float)1/15);
-			Matrix4 T = Matrix4.createTranslation((float)-0.5,(float)-0.5,(float)-0.5);
 
 			// tell OpenGL to use the shader
 			GL20.glUseProgram( shader.getProgramId() );
@@ -91,8 +89,7 @@ public class ShaderExample
 			addMatrix(shader, R, "R");
 			addMatrix(shader, M, "M");
 			addMatrix(shader, V, "V");
-			addMatrix(shader, S, "S");
-			addMatrix(shader,T,"T");
+			
 			
 			// bind vertex and color data
 			GL30.glBindVertexArray(vaoHandle);
@@ -123,9 +120,13 @@ public class ShaderExample
 	 */
 	private int constructVertexArrayObject(ArrayList<Vector3> points)
 	{
+		Matrix4 S = Matrix4.createScale((float)1/15);
+		Matrix4 T = Matrix4.createTranslation((float)-0.5,(float)-0.5,(float)-0.5);
 		float[] buffer = new float[points.size()*3];
 		int i = 0;
 		for(Vector3 point: points){
+			S.mulDir(point);
+			T.mulPos(point);
 			buffer[3*i]=(point.x); buffer[3*i+1]=(point.y); buffer[3*i+2]=(point.z);
 			i = i+1;
 		}
