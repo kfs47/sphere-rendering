@@ -24,7 +24,6 @@ public class ShaderExample
 	 */
 	public void initGl() throws LWJGLException
 	{
-		Collections.copy(points, initialPoints);
 		
 		// width and height of window and view port
 		int width = 640;
@@ -52,6 +51,8 @@ public class ShaderExample
 	/** Run the shader */
 	public void run()
 	{
+		copy(points,initialPoints);
+		
 		// compile and link vertex and fragment shaders into
 		// a "program" that resides in the OpenGL driver
 		ShaderProgram shader = new ShaderProgram();
@@ -216,9 +217,16 @@ public class ShaderExample
 	
 	public static void updatePoints(){
 		time += .05;
-		Collections.copy(points, initialPoints);
+		copy(points, initialPoints);
 		for (Vector3 v: points){
 			v.add((float)(3*Math.sin(time)));
+		}
+	}
+	
+	public static void copy(ArrayList<Vector3> dest, ArrayList<Vector3> src){
+		dest.clear();
+		for (Vector3 v: src){
+			dest.add(v.clone());
 		}
 	}
 	
