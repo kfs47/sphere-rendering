@@ -220,7 +220,8 @@ public class ShaderExample
 		time += .05;
 		copy(points, initialPoints);
 		for (Vector3 v: points){
-			v.add((float)(3*Math.sin(time)));
+			v.x += Math.sin(time);
+			v.y += Math.cos(time);
 		}
 	}
 	
