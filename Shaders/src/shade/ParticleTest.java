@@ -1,5 +1,7 @@
 package shade;
 
+import physics.ParticleSystem;
+
 
 import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 import static org.lwjgl.opengl.GL11.glGetError;
@@ -14,11 +16,9 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
  
-public class ShaderExample 
+public class ParticleTest 
 {
-	public static ArrayList<Vector3> initialPoints = createBox(15,15,15,1);
-	public static ArrayList<Vector3> points = new ArrayList<Vector3>(initialPoints.size());
-	public static double time = 0;
+	public static ParticleSystem system = new ParticleSystem();
 	
 	/**
 	 * General initialization stuff for OpenGL
@@ -52,8 +52,7 @@ public class ShaderExample
 	/** Run the shader */
 	public void run()
 	{
-		copy(points,initialPoints);
-		
+		ArrayList<Vector3> points = system.getPositions();
 		// compile and link vertex and fragment shaders into
 		// a "program" that resides in the OpenGL driver
 		ShaderProgram shader = new ShaderProgram();
@@ -110,7 +109,8 @@ public class ShaderExample
 			Display.update();
 			Display.sync(60);
 			
-			updatePoints();
+			system.update();
+			points = system.getPositions();
 			vaoHandle = constructVertexArrayObject(points);
 		}
 		Display.destroy();
@@ -212,23 +212,11 @@ public class ShaderExample
 	 */
 	public static void main(String[] args) throws LWJGLException
 	{
-		ShaderExample example = new ShaderExample();
+		ParticleTest example = new ParticleTest();
 		example.initGl();
 		example.run();
 	}
 	
-	public static void updatePoints(){
-		
-		
-		
-		time += .05;
-		copy(points, initialPoints);
-		for (Vector3 v: points){
-			v.x += Math.sin(time);
-			v.y += Math.cos(Math.PI*time);
-			v.z += time;
-		}
-	}
 	
 	public static void copy(ArrayList<Vector3> dest, ArrayList<Vector3> src){
 		dest.clear();
