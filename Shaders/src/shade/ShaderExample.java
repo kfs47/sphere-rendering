@@ -2,11 +2,12 @@ package shade;
 
 import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 import static org.lwjgl.opengl.GL11.glGetError;
- 
+
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
- 
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.*;
@@ -14,11 +15,17 @@ import org.lwjgl.util.glu.GLU;
  
 public class ShaderExample 
 {
+	public static ArrayList<Vector3> initialPoints = createBox(15,15,15,1);
+	public static ArrayList<Vector3> points = new ArrayList<Vector3>();
+	public static double time = 0;
+	
 	/**
 	 * General initialization stuff for OpenGL
 	 */
 	public void initGl() throws LWJGLException
 	{
+		Collections.copy(points, initialPoints);
+		
 		// width and height of window and view port
 		int width = 640;
 		int height = 480;
@@ -56,7 +63,7 @@ public class ShaderExample
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
  
 		
-		ArrayList<Vector3> points = createBox(15,15,15,15);
+		//ArrayList<Vector3> points = createBox(15,15,15,15);
 		
 		int vaoHandle = constructVertexArrayObject(points);
 		
@@ -99,10 +106,13 @@ public class ShaderExample
 			{
 				throw new RuntimeException("OpenGL error: "+GLU.gluErrorString(glGetError()));
 			}
- 
+			
 			// swap buffers and sync frame rate to 60 fps
 			Display.update();
 			Display.sync(60);
+			
+			updatePoints();
+			vaoHandle = constructVertexArrayObject(points);
 		}
 		Display.destroy();
 	}
@@ -203,4 +213,14 @@ public class ShaderExample
 		example.initGl();
 		example.run();
 	}
+	
+	public static void updatePoints(){
+		time += .05;
+		Collections.copy(points, initialPoints);
+		for (Vector3 v: points){
+			v.add((float)(3*Math.sin(time)));
+		}
+	}
+	
+	
 }
