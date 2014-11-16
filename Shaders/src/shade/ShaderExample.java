@@ -16,7 +16,7 @@ import org.lwjgl.util.glu.GLU;
 public class ShaderExample 
 {
 	public static ArrayList<Vector3> initialPoints = createBox(15,15,15,1);
-	public static ArrayList<Vector3> points = new ArrayList<Vector3>();
+	public static ArrayList<Vector3> points = new ArrayList<Vector3>(initialPoints.size());
 	public static double time = 0;
 	
 	/**
