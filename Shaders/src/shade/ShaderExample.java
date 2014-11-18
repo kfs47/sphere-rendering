@@ -27,8 +27,8 @@ public class ShaderExample
 	{
 		
 		// width and height of window and view port
-		int width = 640;
-		int height = 480;
+		int width = 800;
+		int height = 800;
  
 		// set up window and display
 		Display.setDisplayMode(new DisplayMode(width, height));
@@ -61,8 +61,8 @@ public class ShaderExample
 		// do the heavy lifting of loading, compiling and linking
 		// the two shaders into a usable shader program
 		shader.init("src/shade/simple.vertex", "src/shade/simple.fragment");	
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
+		//GL11.glEnable(GL11.GL_DEPTH_TEST);
+		//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
  
 		
 		//ArrayList<Vector3> points = createBox(15,15,15,15);
@@ -75,12 +75,14 @@ public class ShaderExample
  
 		while( Display.isCloseRequested() == false )
 		{
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
  
 			//Create Matrices
 			Matrix4 M = Matrix4.createTranslation((float)0,(float)0,(float)-5);
 			Matrix4 R = Matrix4.createRotationY((float)0.3);
-			Matrix4 R2 = Matrix4.createRotationX((float)0.3);
+			Matrix4 R2 = Matrix4.createRotationX((float)0.1);
 			Matrix4 V = Matrix4.createPerspective((float)1,(float)1,(float)3,(float)0);
 
 			// tell OpenGL to use the shader
@@ -224,9 +226,19 @@ public class ShaderExample
 		time += .05;
 		copy(points, initialPoints);
 		for (Vector3 v: points){
-			v.x += Math.sin(time);
-			v.y += Math.cos(Math.PI*time);
-			v.z += time;
+			//v.x -= 7.5;
+			//v.x *= Math.sin(time);
+			//v.x += 7.5;
+			//v.z -= 7.5;
+			//v.z *= Math.cos(time);
+			//v.z += 7.5;
+			
+			//v.x -= 7.5;
+			//v.x *= Math.sin(time);
+			//v.x += 7.5;
+			//v.y -= 7.5;
+			//v.y *= Math.cos(time);
+			//v.y += 7.5;
 		}
 	}
 	
